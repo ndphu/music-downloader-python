@@ -1,17 +1,13 @@
-import urllib
-import json
-
-
-playlist_url = 'http://nhacso.net/playlists/ajax-get-detail-playlist?dataId='
-
+import requests
 
 if __name__ == "__main__":
-  response = urllib.urlopen("%s%s" % (playlist_url, 'XF5ZVEBY'))
-  playlist_data = json.loads(response.read())
-  songs = playlist_data['songs']
-  print 'Number of songs: ' + str(len(songs))
-  for song in songs:
-    print song['name']
-    print song['link_mp3']
-
-
+    playlist_id = "XF9ZUENW"
+    playlists_url = 'http://nhacso.net/playlists/ajax-get-detail-playlist?dataId=' + playlist_id
+    print 'Playlist AJAX URL: ' + playlists_url
+    r = requests.get(playlists_url)
+    playlist = r.json()
+    if 'songs' in playlist:
+        songs = playlist['songs']
+        print 'Number of songs: ' + str(len(songs))
+    else:
+        print 'Invalid playlist with id=%s' % playlist_id
